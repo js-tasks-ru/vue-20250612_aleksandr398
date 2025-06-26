@@ -1,16 +1,32 @@
-import { defineComponent, createApp } from 'vue'
+import { defineComponent, createApp } from 'vue/dist/vue.esm-browser.js'
 
 const App = defineComponent({
-  name: 'App',
+    name: "App",
 
-  setup() {
-    const date = new Date().toLocaleDateString(navigator.language, { dateStyle: 'long' })
-    return {
-      date,
-    }
-  },
+    setup() {
+        function getLocalDate() {
+            return new Date().toLocaleString(navigator.language, {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric',
+                }
+            )
+        };
 
-  template: `<div>Сегодня {{ date }}</div>`,
+        return {
+            getLocalDate,
+        }
+    },
+
+    template: `
+        <div>
+            <a> Сегодня {{ getLocalDate() }}</a>
+        </div>
+    `,
 })
 
-createApp(App).mount('#app')
+const app = createApp(App)
+
+const vm = app.mount('#app')
+
+window.vm = vm
